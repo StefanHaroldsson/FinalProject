@@ -1,73 +1,87 @@
+"""
+Final Cisc 108 Game
+"""
 import arcade
-import random
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+# Constants
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 650
+SCREEN_TITLE = "Leaping in time"
 
-SPRITE_SCALING_FLY = 0.2
-fly = arcade.Sprite("fly.jpg", SPRITE_SCALING_FLY)
-
-SPRITE_SCALING_PLAYER = 0.2
-player = arcade.Sprite("pngtree-cute-green-cartoon-frog-png-image_951640.jpg", SPRITE_SCALING_FLY)
+# Constants used to scale our sprites from their original size
+CHARACTER_SCALING = 0.08
+TILE_SCALING = 0.1
+COIN_SCALING = 0.25
 
 
 class MyGame(arcade.Window):
-    """ Main application class. """
+    """
+    Main application class.
+    """
 
-    def __init__(self, width, height):
-        super().__init__(width, height)
+    def __init__(self):
 
-        arcade.set_background_color(arcade.color.AMAZON)
+        # Call the parent class and set up the window
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+
+        # These are 'lists' that keep track of our sprites. Each sprite should
+        # go into a list.
+        self.coin_list = None
+        self.wall_list = None
+        self.player_list = None
+
+        # Separate variable that holds the player sprite
+        self.player_sprite = None
+
+        arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
     def setup(self):
-        """ Set up the game and initialize the variables. """
-
-        # Create the sprite lists
+        """ Set up the game here. Call this function to restart the game. """
+        # Create the Sprite lists
         self.player_list = arcade.SpriteList()
-        self.fly_list = arcade.SpriteList()
+        self.wall_list = arcade.SpriteList()
+        self.coin_list = arcade.SpriteList()
 
-        # Score
-        self.score = 0
-
-        # Set up the player
-        # Character image from kenney.nl
-        self.player_sprite = arcade.Sprite("pngtree-cute-green-cartoon-frog-png-image_951640.jpg", SPRITE_SCALING_PLAYER)
-        self.player_sprite.center_x = 50  # Starting position
-        self.player_sprite.center_y = 50
+        # Set up the player, specifically placing it at these coordinates.
+        self.player_sprite = arcade.Sprite("images/jumpingman.png", CHARACTER_SCALING)
+        self.player_sprite.center_x = 64
+        self.player_sprite.center_y = 120
         self.player_list.append(self.player_sprite)
 
-        # Create the flies
-        for i in range(0,100):
-            # Create the fly
-            # Coin image from kenney.nl
-            fly = arcade.Sprite("fly.jpg", SPRITE_SCALING_FLY)
+        # Create the ground
+        # This shows using a loop to place multiple sprites horizontally
+        for x in range(0, 1250, 64):
+            wall = arcade.Sprite("images/rock.png")
+            wall.center_y = 32
+            self.wall_list.append(wall)
 
-            # Position the coin
-            fly.center_x = random.randrange(SCREEN_WIDTH)
-            fly.center_y = random.randrange(SCREEN_HEIGHT)
+        # Put some crates on the ground
+        # This shows using a coordinate list to place sprites
+        coordinate_list = [[512, 96],
+                           [256, 96],
+                           [768, 96]]
 
-            # Add the flies to the lists
-            self.fly_list.append(fly)
+        for coordinate in coordinate_list:
+            # Add a crate on the ground
+            wall = arcade.Sprite("images/crate.png", TILE_SCALING)
+            wall.position = coordinate
+            self.wall_list.append(wall)
 
     def on_draw(self):
         """ Render the screen. """
+
         arcade.start_render()
-        self.fly_list.draw()
+        # Code to draw the screen goes here
+        # Draw our sprites
+        self.wall_list.draw()
+        self.coin_list.draw()
         self.player_list.draw()
-
-    def update(self, delta_time):
-        # Generate a list of all  flies that collided with the player.
-        flies_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.fly_list)
-
-        # Loop through each colliding sprite, remove it, and add to the score.
-        for fly in flies_hit_list:
-            fly.kill()
-            self.score += 1
 
 
 def main():
-    game = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT)
-    game.setup()
+    """ Main method """
+    window = MyGame()
+    window.setup()
     arcade.run()
 
 
