@@ -13,6 +13,10 @@ CHARACTER_SCALING = 0.08
 TILE_SCALING = 0.1
 COIN_SCALING = 0.25
 
+# Movement speed of player, in pixels per frame
+PLAYER_MOVEMENT_SPEED = 5
+
+
 
 class MyGame(arcade.Window):
     """
@@ -44,8 +48,8 @@ class MyGame(arcade.Window):
 
         # Set up the player, specifically placing it at these coordinates.
         self.player_sprite = arcade.Sprite("images/jumpingman.png", CHARACTER_SCALING)
-        self.player_sprite.center_x = 64
-        self.player_sprite.center_y = 120
+        self.player_sprite.center_x = 300
+        self.player_sprite.center_y = 300
         self.player_list.append(self.player_sprite)
 
         # Create the ground
@@ -67,6 +71,9 @@ class MyGame(arcade.Window):
             wall.position = coordinate
             self.wall_list.append(wall)
 
+            # Create the 'physics engine'
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
+
     def on_draw(self):
         """ Render the screen. """
 
@@ -76,6 +83,37 @@ class MyGame(arcade.Window):
         self.wall_list.draw()
         self.coin_list.draw()
         self.player_list.draw()
+
+    def on_key_press(self, key, modifiers):
+        """Called whenever a key is pressed. """
+
+        if key == arcade.key.UP or key == arcade.key.W:
+            self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
+        elif key == arcade.key.LEFT or key == arcade.key.A:
+            self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
+            self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
+
+    def on_key_release(self, key, modifiers):
+        """Called when the user releases a key. """
+
+        if key == arcade.key.UP or key == arcade.key.W:
+            self.player_sprite.change_y = 0
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.player_sprite.change_y = 0
+        elif key == arcade.key.LEFT or key == arcade.key.A:
+            self.player_sprite.change_x = 0
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
+            self.player_sprite.change_x = 0
+
+    def on_update(self, delta_time):
+        """ Movement and game logic """
+
+        # Call update on all sprites (The sprites don't do much in this
+        # example though.)
+        self.physics_engine.update()
 
 
 def main():
