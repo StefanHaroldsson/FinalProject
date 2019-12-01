@@ -43,6 +43,8 @@ class MyGame(arcade.Window):
         self.player_list = None
         self.bonus_list = None
         self.dont_touch_list = None
+        self.bomb_list = None
+
 
         # Separate variable that holds the player sprite
         self.player_sprite = None
@@ -78,6 +80,8 @@ class MyGame(arcade.Window):
         self.coin_list = arcade.SpriteList()
         self.bonus_list = arcade.SpriteList()
         self.dont_touch_list= arcade.SpriteList()
+        self.bomb_list = arcade.SpriteList()
+
 
         # Set up the player, specifically placing it at these coordinates.
         self.player_sprite = arcade.Sprite("images/jumpingman.png", CHARACTER_SCALING)
@@ -99,7 +103,7 @@ class MyGame(arcade.Window):
 
 
 
-        coordinate_list = [[random.randint(0,SCREEN_WIDTH), 500],[random.randint(0,SCREEN_WIDTH), 700],[random.randint(0,SCREEN_WIDTH), 900],[random.randint(0,SCREEN_WIDTH), 1100],[random.randint(0,SCREEN_WIDTH), 1300],[random.randint(0,SCREEN_WIDTH), 1500],[random.randint(0,SCREEN_WIDTH), 1700],[random.randint(0,SCREEN_WIDTH), 1900],[random.randint(0,SCREEN_WIDTH), 2100],[random.randint(0,SCREEN_WIDTH), 2300],[random.randint(0,SCREEN_WIDTH), 2500],[random.randint(0,SCREEN_WIDTH), 2700],[random.randint(0,SCREEN_WIDTH), 2900],[random.randint(0,SCREEN_WIDTH), 3100],[random.randint(0,SCREEN_WIDTH), 3300],[random.randint(0,SCREEN_WIDTH), 3500],[random.randint(0,SCREEN_WIDTH), 3700],[random.randint(0,SCREEN_WIDTH), 3900],[random.randint(0,SCREEN_WIDTH), 4100],[random.randint(0,SCREEN_WIDTH), 4300],[random.randint(0,SCREEN_WIDTH), 4500],[random.randint(0,SCREEN_WIDTH), 4700],[random.randint(0,SCREEN_WIDTH), 4900],[random.randint(0,SCREEN_WIDTH), 3000],[random.randint(0,SCREEN_WIDTH), 5100],[random.randint(0,SCREEN_WIDTH), 5300],[random.randint(0,SCREEN_WIDTH), 5500],[random.randint(0,SCREEN_WIDTH), 5700],[random.randint(0,SCREEN_WIDTH), 5900],[random.randint(0,SCREEN_WIDTH), 6100],[random.randint(0,SCREEN_WIDTH), 6300],[random.randint(0,SCREEN_WIDTH), 6500],[random.randint(0,SCREEN_WIDTH), 6700],[random.randint(0,SCREEN_WIDTH), 6900],[random.randint(0,SCREEN_WIDTH), 7100],[random.randint(0,SCREEN_WIDTH), 7300],[random.randint(0,SCREEN_WIDTH), 7500],[random.randint(0,SCREEN_WIDTH), 7700],[random.randint(0,SCREEN_WIDTH), 7900],[random.randint(0,SCREEN_WIDTH), 8100],[random.randint(0,SCREEN_WIDTH), 8300],[random.randint(0,SCREEN_WIDTH), 8500],[random.randint(0,SCREEN_WIDTH), 8700],[random.randint(0,SCREEN_WIDTH), 8900],[random.randint(0,SCREEN_WIDTH), 9100],[random.randint(0,SCREEN_WIDTH), 9300],[random.randint(0,SCREEN_WIDTH), 9500],[random.randint(0,SCREEN_WIDTH), 9700],[random.randint(0,SCREEN_WIDTH), 9900],[random.randint(0,SCREEN_WIDTH), 10100],[random.randint(0,SCREEN_WIDTH), 10300],[random.randint(0,SCREEN_WIDTH), 10500],[random.randint(0,SCREEN_WIDTH), 10700],[random.randint(0,SCREEN_WIDTH), 10900]]
+        coordinate_list = [[random.randint(0,SCREEN_WIDTH),250],[random.randint(0,SCREEN_WIDTH), 500],[random.randint(0,SCREEN_WIDTH), 700],[random.randint(0,SCREEN_WIDTH), 900],[random.randint(0,SCREEN_WIDTH), 1100],[random.randint(0,SCREEN_WIDTH), 1300],[random.randint(0,SCREEN_WIDTH), 1500],[random.randint(0,SCREEN_WIDTH), 1700],[random.randint(0,SCREEN_WIDTH), 1900],[random.randint(0,SCREEN_WIDTH), 2100],[random.randint(0,SCREEN_WIDTH), 2300],[random.randint(0,SCREEN_WIDTH), 2500],[random.randint(0,SCREEN_WIDTH), 2700],[random.randint(0,SCREEN_WIDTH), 2900],[random.randint(0,SCREEN_WIDTH), 3100],[random.randint(0,SCREEN_WIDTH), 3300],[random.randint(0,SCREEN_WIDTH), 3500],[random.randint(0,SCREEN_WIDTH), 3700],[random.randint(0,SCREEN_WIDTH), 3900],[random.randint(0,SCREEN_WIDTH), 4100],[random.randint(0,SCREEN_WIDTH), 4300],[random.randint(0,SCREEN_WIDTH), 4500],[random.randint(0,SCREEN_WIDTH), 4700],[random.randint(0,SCREEN_WIDTH), 4900],[random.randint(0,SCREEN_WIDTH), 3000],[random.randint(0,SCREEN_WIDTH), 5100],[random.randint(0,SCREEN_WIDTH), 5300],[random.randint(0,SCREEN_WIDTH), 5500],[random.randint(0,SCREEN_WIDTH), 5700],[random.randint(0,SCREEN_WIDTH), 5900],[random.randint(0,SCREEN_WIDTH), 6100],[random.randint(0,SCREEN_WIDTH), 6300],[random.randint(0,SCREEN_WIDTH), 6500],[random.randint(0,SCREEN_WIDTH), 6700],[random.randint(0,SCREEN_WIDTH), 6900],[random.randint(0,SCREEN_WIDTH), 7100],[random.randint(0,SCREEN_WIDTH), 7300],[random.randint(0,SCREEN_WIDTH), 7500],[random.randint(0,SCREEN_WIDTH), 7700],[random.randint(0,SCREEN_WIDTH), 7900],[random.randint(0,SCREEN_WIDTH), 8100],[random.randint(0,SCREEN_WIDTH), 8300],[random.randint(0,SCREEN_WIDTH), 8500],[random.randint(0,SCREEN_WIDTH), 8700],[random.randint(0,SCREEN_WIDTH), 8900],[random.randint(0,SCREEN_WIDTH), 9100],[random.randint(0,SCREEN_WIDTH), 9300],[random.randint(0,SCREEN_WIDTH), 9500],[random.randint(0,SCREEN_WIDTH), 9700],[random.randint(0,SCREEN_WIDTH), 9900],[random.randint(0,SCREEN_WIDTH), 10100],[random.randint(0,SCREEN_WIDTH), 10300],[random.randint(0,SCREEN_WIDTH), 10500],[random.randint(0,SCREEN_WIDTH), 10700],[random.randint(0,SCREEN_WIDTH), 10900],[random.randint(0,SCREEN_WIDTH), 11100],[random.randint(0,SCREEN_WIDTH), 11300],[random.randint(0,SCREEN_WIDTH), 11500],[random.randint(0,SCREEN_WIDTH), 11700],[random.randint(0,SCREEN_WIDTH), 11900],[random.randint(0,SCREEN_WIDTH), 12100],[random.randint(0,SCREEN_WIDTH), 12300],[random.randint(0,SCREEN_WIDTH), 12500],[random.randint(0,SCREEN_WIDTH), 12700],[random.randint(0,SCREEN_WIDTH), 12900],[random.randint(0,SCREEN_WIDTH), 13100],[random.randint(0,SCREEN_WIDTH), 13300],[random.randint(0,SCREEN_WIDTH), 13500],[random.randint(0,SCREEN_WIDTH), 13700],[random.randint(0,SCREEN_WIDTH), 13900],[random.randint(0,SCREEN_WIDTH), 14100],[random.randint(0,SCREEN_WIDTH), 14300],[random.randint(0,SCREEN_WIDTH), 14500],[random.randint(0,SCREEN_WIDTH), 14700],[random.randint(0,SCREEN_WIDTH), 14900],[random.randint(0,SCREEN_WIDTH), 15100],[random.randint(0,SCREEN_WIDTH), 15300],[random.randint(0,SCREEN_WIDTH), 15500],[random.randint(0,SCREEN_WIDTH), 15700],[random.randint(0,SCREEN_WIDTH), 15900]]
 
 
 
@@ -111,26 +115,45 @@ class MyGame(arcade.Window):
             wall.position = coordinate
             self.wall_list.append(wall)
 
-            # Use a loop to place some coins for our character to pick up
-            for x in range(128, 1250, 256):
-                coin = arcade.Sprite("images/Coins.png", COIN_SCALING)
-                coin.center_x = random.randint(-200,1400)
-                coin.center_y = random.randint(160, 12000)
-                self.coin_list.append(coin)
+
+        # Use a loop to place some coins for our character to pick up
+        for x in range(128, 1250, 256):
+            coin = arcade.Sprite("images/Coins.png", COIN_SCALING)
+            coin.center_x = random.randint(-128,SCREEN_WIDTH)
+            coin.center_y = random.randint(0,16000)
+            self.coin_list.append(coin)
 
          # pick up some bonuses
-        coordinate_bonus_list = [[random.randint(0,SCREEN_HEIGHT),1500], [random.randint(0,SCREEN_HEIGHT),3000], [random.randint(0,SCREEN_HEIGHT),4500]]
+        coordinate_bonus_list = [[random.randint(0,SCREEN_WIDTH),1500], [random.randint(0,SCREEN_WIDTH),3000], [random.randint(0,SCREEN_WIDTH),4500],[random.randint(0,SCREEN_WIDTH),6000],[random.randint(0,SCREEN_WIDTH),7500],[random.randint(0,SCREEN_WIDTH),9000],[random.randint(0,SCREEN_WIDTH),10500],[random.randint(0,SCREEN_WIDTH),12000],[random.randint(0,SCREEN_WIDTH),13500],[random.randint(0,SCREEN_WIDTH),15000],[random.randint(0,SCREEN_WIDTH),17500],[random.randint(0,SCREEN_WIDTH),19000],[random.randint(0,SCREEN_WIDTH),20500]]
+
         for coordinate in coordinate_bonus_list:
 
             bonus = arcade.Sprite("images/bonus.png", TILE_SCALING)
             bonus.position = coordinate
             self.bonus_list.append(bonus)
 
-            coordinate_dont_touch_list = [[-1000,-5000],[0,-5000],[1000,-5000],[2000,-5000],[3000,-5000]]
-            for coordinate in coordinate_dont_touch_list:
-                dont_touch = arcade.Sprite("images/flame.png", 3)
-                dont_touch.position = coordinate
-                self.dont_touch_list.append(dont_touch)
+        coordinate_dont_touch_list = [[-1000,-5000],[0,-5000],[1000,-5000],[2000,-5000],[3000,-5000],[-1000,16200],[0,16200],[1000,16200],[2000,16200],[3000,16200]]
+        for coordinate in coordinate_dont_touch_list:
+            dont_touch = arcade.Sprite("images/flame.png", 1)
+            dont_touch.position = coordinate
+            self.dont_touch_list.append(dont_touch)
+
+        coordinate_bomb_list = [[random.randint(0, SCREEN_HEIGHT), 2250], [random.randint(0, SCREEN_HEIGHT), 3750],
+                                     [random.randint(0, SCREEN_HEIGHT), 5250], [random.randint(0, SCREEN_HEIGHT), 6750],
+                                     [random.randint(0, SCREEN_HEIGHT), 8250], [random.randint(0, SCREEN_HEIGHT), 9750],
+                                     [random.randint(0, SCREEN_HEIGHT), 11250],
+                                     [random.randint(0, SCREEN_HEIGHT), 12750],
+                                     [random.randint(0, SCREEN_HEIGHT), 14250],
+                                     [random.randint(0, SCREEN_HEIGHT), 15750],
+                                     [random.randint(0, SCREEN_HEIGHT), 17250],
+                                     [random.randint(0, SCREEN_HEIGHT), 19750],
+                                     [random.randint(0, SCREEN_HEIGHT), 20250]]
+        for coordinate in coordinate_bomb_list:
+            bomb = arcade.Sprite("images/bomb.png", 0.05)
+            bomb.position = coordinate
+            self.bomb_list.append(bomb)
+
+
 
             # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
@@ -148,6 +171,8 @@ class MyGame(arcade.Window):
         self.player_list.draw()
         self.bonus_list.draw()
         self.dont_touch_list.draw()
+        self.bomb_list.draw()
+
 
 
         # Draw our score on the screen, scrolling it with the viewport
@@ -208,6 +233,13 @@ class MyGame(arcade.Window):
             self.player_sprite.center_y = 100
             self.score = 0
 
+        if arcade.check_for_collision_with_list(self.player_sprite,
+                                                self.bomb_list):
+            self.player_sprite.change_x = 0
+            self.player_sprite.change_y = 0
+            self.player_sprite.center_x = 600
+            self.player_sprite.center_y = 100
+            self.score = 0
         # --- Manage Scrolling ---
 
         # Track if we need to change the viewport
