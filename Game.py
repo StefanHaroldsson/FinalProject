@@ -17,7 +17,7 @@ COIN_SCALING = 0.25
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 5
 GRAVITY = 0.5
-PLAYER_JUMP_SPEED = 25
+PLAYER_JUMP_SPEED = 28
 
 LEFT_VIEWPORT_MARGIN = 150
 RIGHT_VIEWPORT_MARGIN = 150
@@ -61,7 +61,13 @@ class MyGame(arcade.Window):
         # Keep track of the score
         self.score = 0
 
-        arcade.set_background_color(arcade.csscolor.BLACK)
+        #add sounds
+        self.coin_sound = arcade.load_sound("sounds/coins.wav")
+        self.jump_sound = arcade.load_sound("sounds/jump.wav")
+        self.bomb_sound= arcade.load_sound("sounds/Bomb.wav")
+        self.death_sound = arcade.load_sound("sounds/death.wav")
+        self.star_sound =arcade.load_sound("sounds/woohoo.wav")
+        arcade.set_background_color(arcade.csscolor.DARK_GRAY)
 
 
 
@@ -184,6 +190,7 @@ class MyGame(arcade.Window):
         if key == arcade.key.UP or key == arcade.key.W:
             if self.physics_engine.can_jump():
                 self.player_sprite.change_y = PLAYER_JUMP_SPEED
+                arcade.play_sound(self.jump_sound)
         elif key == arcade.key.LEFT or key == arcade.key.A:
             self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
         elif key == arcade.key.RIGHT or key == arcade.key.D:
@@ -214,12 +221,14 @@ class MyGame(arcade.Window):
             coin.remove_from_sprite_lists()
             # Add 350-1000 to the score
             self.score += random.randint(350,1000)
+            arcade.play_sound(self.coin_sound)
 
         bonus_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                              self.bonus_list)
         for bonus in bonus_hit_list:
             bonus.remove_from_sprite_lists()
             self.score += 100
+            arcade.play_sound(self.star_sound)
 
         # Did the player touch something they should not?
         if arcade.check_for_collision_with_list(self.player_sprite,
@@ -228,6 +237,7 @@ class MyGame(arcade.Window):
             self.player_sprite.change_y = 0
             self.player_sprite.center_x = 600
             self.player_sprite.center_y = 100
+            arcade.play_sound(self.death_sound)
 
 
         if arcade.check_for_collision_with_list(self.player_sprite,
@@ -236,6 +246,7 @@ class MyGame(arcade.Window):
             self.player_sprite.change_y = 0
             self.player_sprite.center_x = 600
             self.player_sprite.center_y = 100
+            arcade.play_sound(self.bomb_sound)
 
 
 
