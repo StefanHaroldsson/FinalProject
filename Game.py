@@ -7,7 +7,7 @@ import random
 # Constants
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 700
-SCREEN_TITLE = "Jumping for Glory"
+SCREEN_TITLE = "Invisible Jump"
 
 # Constants used to scale our sprites from their original size
 CHARACTER_SCALING = 0.08
@@ -47,6 +47,7 @@ class MyGame(arcade.Window):
 
 
 
+
         # Separate variable that holds the player sprite
         self.player_sprite = None
 
@@ -60,7 +61,7 @@ class MyGame(arcade.Window):
         # Keep track of the score
         self.score = 0
 
-        arcade.set_background_color(arcade.csscolor.DARK_MAGENTA)
+        arcade.set_background_color(arcade.csscolor.BLACK)
 
 
 
@@ -81,6 +82,7 @@ class MyGame(arcade.Window):
         self.bonus_list = arcade.SpriteList()
         self.dont_touch_list= arcade.SpriteList()
         self.bomb_list = arcade.SpriteList()
+
 
 
         # Sets up our player, placing him at the specified coordinates of the start block
@@ -144,6 +146,10 @@ class MyGame(arcade.Window):
 
 
 
+
+
+
+
             # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
                                                              self.wall_list,
@@ -165,7 +171,8 @@ class MyGame(arcade.Window):
 
 
 
-        # Draw our score on the screen, scrolling it with the viewport
+
+        # Draw our score on the screen, keeping it left-centered ato bottom regardless
         score_text = f"Score: {self.score}"
         arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
                          arcade.csscolor.BLACK, 18)
@@ -205,7 +212,7 @@ class MyGame(arcade.Window):
         for coin in coin_hit_list:
             # Remove the coin
             coin.remove_from_sprite_lists()
-            # Add one to the score
+            # Add 350-1000 to the score
             self.score += random.randint(350,1000)
 
         bonus_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
@@ -229,6 +236,7 @@ class MyGame(arcade.Window):
             self.player_sprite.change_y = 0
             self.player_sprite.center_x = 600
             self.player_sprite.center_y = 100
+
 
 
         # --- Manage Scrolling ---
