@@ -104,8 +104,7 @@ class MyGame(arcade.Window):
             wall.center_y = 50
             self.wall_list.append(wall)
 
-        # Places our trampoline where they need to be on the ground. They have set heights but random widths, within screen.
-
+        # Places our trampolines where they need to be on the ground. They have set heights but random widths, within screen.
         coordinate_list = [[random.randint(-200,SCREEN_WIDTH),250],[random.randint(-200,SCREEN_WIDTH), 500],[random.randint(-200,SCREEN_WIDTH), 700],[random.randint(-200,SCREEN_WIDTH), 900],[random.randint(-200,SCREEN_WIDTH), 1100],[random.randint(0,SCREEN_WIDTH), 1300],[random.randint(0,SCREEN_WIDTH), 1500],[random.randint(-200,SCREEN_WIDTH), 1700],[random.randint(-200,SCREEN_WIDTH), 1900],[random.randint(-200,SCREEN_WIDTH), 2100],[random.randint(200,SCREEN_WIDTH), 2300],[random.randint(-200,SCREEN_WIDTH), 2500],[random.randint(-200,SCREEN_WIDTH), 2700],[random.randint(-200,SCREEN_WIDTH), 2900],[random.randint(-200,SCREEN_WIDTH), 3100],[random.randint(-200,SCREEN_WIDTH), 3300],[random.randint(-200,SCREEN_WIDTH), 3500],[random.randint(-200,SCREEN_WIDTH), 3700],[random.randint(0,SCREEN_WIDTH), 3900],[random.randint(0,SCREEN_WIDTH), 4100],[random.randint(-200,SCREEN_WIDTH), 4300],[random.randint(-200,SCREEN_WIDTH), 4500],[random.randint(-200,SCREEN_WIDTH), 4700],[random.randint(-200,SCREEN_WIDTH), 4900],[random.randint(-200,SCREEN_WIDTH), 3000],[random.randint(0,SCREEN_WIDTH), 5100],[random.randint(0,SCREEN_WIDTH), 5300],[random.randint(0,SCREEN_WIDTH), 5500],[random.randint(-200,SCREEN_WIDTH), 5700],[random.randint(-200,SCREEN_WIDTH), 5900],[random.randint(-200,SCREEN_WIDTH), 6100],[random.randint(0,SCREEN_WIDTH), 6300],[random.randint(0,SCREEN_WIDTH), 6500],[random.randint(-200,SCREEN_WIDTH), 6700],[random.randint(0,SCREEN_WIDTH), 6900],[random.randint(0,SCREEN_WIDTH), 7100],[random.randint(-200,SCREEN_WIDTH), 7300],[random.randint(-200,SCREEN_WIDTH), 7500],[random.randint(-200,SCREEN_WIDTH), 7700],[random.randint(0,SCREEN_WIDTH), 7900],[random.randint(-200,SCREEN_WIDTH), 8100],[random.randint(-200,SCREEN_WIDTH), 8300],[random.randint(-200,SCREEN_WIDTH), 8500],[random.randint(-200,SCREEN_WIDTH), 8700],[random.randint(-200,SCREEN_WIDTH), 8900],[random.randint(-200,SCREEN_WIDTH), 9100],[random.randint(-200,SCREEN_WIDTH), 9300],[random.randint(0,SCREEN_WIDTH), 9500],[random.randint(-200,SCREEN_WIDTH), 9700],[random.randint(-200,SCREEN_WIDTH), 9900],[random.randint(-200,SCREEN_WIDTH), 10100],[random.randint(-200,SCREEN_WIDTH), 10300],[random.randint(-200,SCREEN_WIDTH), 10500],[random.randint(-200,SCREEN_WIDTH), 10700],[random.randint(-200,SCREEN_WIDTH), 10900],[random.randint(-200,SCREEN_WIDTH), 11100],[random.randint(-200,SCREEN_WIDTH), 11300],[random.randint(-200,SCREEN_WIDTH), 11500],[random.randint(-200,SCREEN_WIDTH), 11700],[random.randint(-200,SCREEN_WIDTH), 11900],[random.randint(-200,SCREEN_WIDTH), 12100],[random.randint(-200,SCREEN_WIDTH), 12300],[random.randint(-200,SCREEN_WIDTH), 12500],[random.randint(-200,SCREEN_WIDTH), 12700],[random.randint(-200,SCREEN_WIDTH), 12900],[random.randint(-200,SCREEN_WIDTH), 13100],[random.randint(-200,SCREEN_WIDTH), 13300],[random.randint(-200,SCREEN_WIDTH), 13500],[random.randint(-200,SCREEN_WIDTH), 13700],[random.randint(-200,SCREEN_WIDTH), 13900],[random.randint(-200,SCREEN_WIDTH), 14100],[random.randint(-200,SCREEN_WIDTH), 14300],[random.randint(0,SCREEN_WIDTH), 14500],[random.randint(-200,SCREEN_WIDTH), 14700],[random.randint(-200,SCREEN_WIDTH), 14900],[random.randint(-200,SCREEN_WIDTH), 15100],[random.randint(-200,SCREEN_WIDTH), 15300],[random.randint(-200,SCREEN_WIDTH), 15500],[random.randint(-200,SCREEN_WIDTH), 15700],[random.randint(-200,SCREEN_WIDTH), 15900]]
 
         for coordinate in coordinate_list:
@@ -128,12 +127,14 @@ class MyGame(arcade.Window):
             bonus = arcade.Sprite("images/bonus.png", TILE_SCALING)
             bonus.position = coordinate
             self.bonus_list.append(bonus)
+
          # creates layers at top and bottom that you can not pass without being sent to start
         coordinate_dont_touch_list = [[-1000,-5000],[0,-5000],[1000,-5000],[2000,-5000],[3000,-5000],[-1000,16200],[0,16200],[1000,16200],[2000,16200],[3000,16200]]
         for coordinate in coordinate_dont_touch_list:
             dont_touch = arcade.Sprite("images/flame.png", 1)
             dont_touch.position = coordinate
             self.dont_touch_list.append(dont_touch)
+
          # places bombs at fixed heights and random widths
         coordinate_bomb_list = [[random.randint(0, SCREEN_WIDTH), 2250], [random.randint(0, SCREEN_WIDTH), 3750],
                                      [random.randint(0, SCREEN_WIDTH), 5250], [random.randint(0, SCREEN_WIDTH), 6750],
@@ -178,7 +179,7 @@ class MyGame(arcade.Window):
 
 
 
-        # Draw our score on the screen, keeping it left-centered ato bottom regardless
+        # Draw our score on the screen, keeping it left-centered and on the bottom regardless
         score_text = f"Score: {self.score}"
         arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
                          arcade.csscolor.BLACK, 18)
@@ -187,13 +188,13 @@ class MyGame(arcade.Window):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
 
-        if key == arcade.key.UP or key == arcade.key.W:
+        if key == arcade.key.UP :
             if self.physics_engine.can_jump():
                 self.player_sprite.change_y = PLAYER_JUMP_SPEED
                 arcade.play_sound(self.jump_sound)
-        elif key == arcade.key.LEFT or key == arcade.key.A:
+        elif key == arcade.key.LEFT :
             self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
+        elif key == arcade.key.RIGHT:
             self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
@@ -205,17 +206,14 @@ class MyGame(arcade.Window):
             self.player_sprite.change_x = 0
 
     def on_update(self, delta_time):
-        """ Movement and game logic """
 
-        # Call update on all sprites (The sprites don't do much in this
-        # example though.)
         self.physics_engine.update()
 
-        # See if we hit any coins
+        # see if any coins have been hit, add to score and play jingle if it has
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                              self.coin_list)
 
-        # Loop through each coin we hit (if any) and remove it
+
         for coin in coin_hit_list:
             # Remove the coin
             coin.remove_from_sprite_lists()
@@ -223,6 +221,7 @@ class MyGame(arcade.Window):
             self.score += random.randint(350,1000)
             arcade.play_sound(self.coin_sound)
 
+        #checks to see if a bonus star has been hit, adds 100 if it has
         bonus_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                              self.bonus_list)
         for bonus in bonus_hit_list:
@@ -230,7 +229,7 @@ class MyGame(arcade.Window):
             self.score += 100
             arcade.play_sound(self.star_sound)
 
-        # Did the player touch something they should not?
+        # checks to see if the player touched a death layer, resets to start if they did
         if arcade.check_for_collision_with_list(self.player_sprite,
                                                 self.dont_touch_list):
             self.player_sprite.change_x = 0
@@ -239,7 +238,7 @@ class MyGame(arcade.Window):
             self.player_sprite.center_y = 100
             arcade.play_sound(self.death_sound)
 
-
+        # checks to see if the player touched a bomb, resets to start if they did
         if arcade.check_for_collision_with_list(self.player_sprite,
                                                 self.bomb_list):
             self.player_sprite.change_x = 0
